@@ -1,22 +1,16 @@
-package oop.stringcalculator;
+package oop.stringCalculator;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class StringCalculatorTest {
-
-    private StringCalculator stringCalculator = new StringCalculator();
+public class stringCalculatorTest {
 
     @Test
     public void itShouldReturnZeroWhenEmptyStringGiven() {
-        assertEquals(stringCalculator.add(""), 0);
-    }
-
-    @Test
-    public void itShouldReturnValueWhenSingleNumberGiven() {
-        assertEquals(stringCalculator.add("1"), 1);
-        assertEquals(stringCalculator.add("12"), 12);
+        final StringCalculator stringCalculator = new StringCalculator();
+        final int actualResult = stringCalculator.add("");
+        assertEquals(actualResult, 0);
     }
 
 }
