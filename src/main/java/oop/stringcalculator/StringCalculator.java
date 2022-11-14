@@ -2,7 +2,6 @@ package oop.stringcalculator;
 
 public class StringCalculator {
     public int add(String input) {
-        if(input.isEmpty()) return 0;
-        return Integer.parseInt(input);
+        return input.isEmpty() ? 0 : Integer.parseInt(input);
     }
 }
