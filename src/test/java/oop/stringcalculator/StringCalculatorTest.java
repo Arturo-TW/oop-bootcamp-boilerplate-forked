@@ -3,22 +3,20 @@ package oop.stringcalculator;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertThrows;
 
 public class StringCalculatorTest {
 
+    private StringCalculator stringCalculator = new StringCalculator();
+
     @Test
     public void itShouldReturnZeroWhenEmptyStringGiven() {
-        final StringCalculator stringCalculator = new StringCalculator();
-        final int actualResult = stringCalculator.add("");
-        assertEquals(actualResult, 0);
+        assertEquals(stringCalculator.add(""), 0);
     }
 
     @Test
     public void itShouldReturnValueWhenSingleNumberGiven() {
-        final StringCalculator stringCalculator = new StringCalculator();
-        final int actualResult = stringCalculator.add("1");
-        assertEquals(actualResult, 1);
+        assertEquals(stringCalculator.add("1"), 1);
+        assertEquals(stringCalculator.add("12"), 12);
     }
 
 }
