@@ -19,8 +19,14 @@ public class UnitConverterTest {
     }
 
     @Test
-    public void itShouldConvertMeterToCentimeter() {
+    public void itShouldConvertMeterToCentimeters() {
         assertEquals(UnitConverter.metersToCentimeters(2.0),200.0,0.01);
         assertNotEquals(UnitConverter.metersToCentimeters(21.0),200.0,0.01);
+    }
+
+    @Test
+    public void itShouldConvertGallonsToLiters() {
+        assertEquals(UnitConverter.gallonsToLiters(4.0), 15.1416, 0.01);
+        assertNotEquals(UnitConverter.gallonsToLiters(7.0), 8.1382, 0.01);
     }
 }
