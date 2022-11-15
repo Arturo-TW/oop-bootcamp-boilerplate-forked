@@ -12,8 +12,7 @@ public abstract class Measure {
         return value;
     }
 
-    public Inch add(Measure measure) {
-       return new Inch(value + measure.getValue()) {
-       };
-    }
+    public abstract Measure add(Measure measure);
+
+
 }

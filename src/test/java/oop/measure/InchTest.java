@@ -14,4 +14,12 @@ public class InchTest {
     assertEquals(inchResult, new Inch(7));
   }
 
+  @Test
+  public void itShouldAddInchesAndMeters() {
+    final Measure inch1 = new Inch(2);
+    final Measure meters1 = new Meter(1);
+    final Measure inchResult = inch1.add(meters1);
+    assertEquals(inchResult, new Inch(41.37008));
+  }
+
 }

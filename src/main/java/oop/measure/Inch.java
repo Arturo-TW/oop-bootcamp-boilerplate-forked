@@ -2,8 +2,19 @@ package oop.measure;
 
 public class Inch extends Measure {
 
+  public static final double METERS_TO_INCH_FACTOR = 39.3701;
+
   public Inch(double inch) {
     super(inch);
+  }
+
+
+  public Inch add(Measure valueToAdd){
+    Inch ValueToReturn = new Inch(super.getValue() + valueToAdd.getValue());
+    if(valueToAdd instanceof Meter){
+      ValueToReturn = new Inch(super.getValue() + (valueToAdd.getValue() * METERS_TO_INCH_FACTOR));
+    }
+    return ValueToReturn;
   }
 
   @Override
