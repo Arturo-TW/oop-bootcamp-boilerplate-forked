@@ -1,6 +1,6 @@
 package oop.measure;
 
-public class Measure {
+public abstract class Measure {
 
     private double value;
 
@@ -10,5 +10,10 @@ public class Measure {
 
     public double getValue() {
         return value;
+    }
+
+    public Inch add(Measure measure) {
+       return new Inch(value + measure.getValue()) {
+       };
     }
 }
