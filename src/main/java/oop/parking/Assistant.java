@@ -1,5 +1,7 @@
 package oop.parking;
 
+import java.util.Collection;
+
 public class Assistant  {
 
   Parking parking;
@@ -14,5 +16,9 @@ public class Assistant  {
 
   public boolean retrieve(String licenseNumber) {
     return parking.retrieve(licenseNumber);
+  }
+
+  public Collection<Object> getParkingLots() {
+    return Set<>
   }
 }
