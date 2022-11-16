@@ -1,24 +1,32 @@
 package oop.parking;
 
-import java.util.Collection;
+import java.util.Set;
 
-public class Assistant  {
+public class Assistant {
 
-  Parking parking;
+    Set<Parking> parkingSet;
 
-  public Assistant(Parking parking) {
-    this.parking = parking;
-  }
+    public Assistant(Set<Parking> parkingSet) {
+        this.parkingSet = parkingSet;
+    }
 
-  public boolean park(String licenseNumber) {
-    return parking.park(licenseNumber);
-  }
+    public boolean park(final String licenseNumber) {
+        boolean parked = false;
+        for (final Parking currentParking : parkingSet) {
+            parked = currentParking.park(licenseNumber);
+        }
+        return parked;
+    }
 
-  public boolean retrieve(String licenseNumber) {
-    return parking.retrieve(licenseNumber);
-  }
+    public boolean retrieve(String licenseNumber) {
+        boolean retrieved = false;
+        for (Parking parking1 : parkingSet) {
+            retrieved = parking1.retrieve(licenseNumber);
+        }
+        return retrieved;
+    }
 
-  public Collection<Object> getParkingLots() {
-    return Set<>
-  }
+    public Set<Parking> getParkingSet() {
+        return parkingSet;
+    }
 }

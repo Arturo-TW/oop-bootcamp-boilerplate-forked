@@ -1,36 +1,42 @@
 package oop.parking;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.*;
 
 public class AssistantTest {
 
-  Parking parking = new Parking();
+    Parking parking;
 
-  @Test
-  public void itShouldParkCar() {
-    Assistant assistant = new Assistant(parking);
-    assertTrue(assistant.park("MAT-001"));
-  }
+    @BeforeMethod
+    public void setUp() {
+        parking = new Parking();
+    }
 
-  @Test
-  public void itShouldRetrieveCar() {
-    Assistant assistant = new Assistant(parking);
-    assertTrue(assistant.retrieve("MAT-001"));
-  }
+    @Test
+    public void itShouldParkCar() {
+        Assistant assistant = new Assistant(new HashSet<>(Arrays.asList(parking)));
+        assertTrue(assistant.park("MAT-001"));
+    }
 
-  @Test
-  public void itShouldSupportMultipleParkingLots() {
-    Set<Parking> parkingLots = new HashSet<>(Arrays.asList(parking, new Parking()));
-    Assistant assistant = new Assistant(parkingLots);
-    assertEquals(assistant.getParkingLots().size(), 2);
+    @Test
+    public void itShouldRetrieveCar() {
+        Assistant assistant = new Assistant(new HashSet<>(Arrays.asList(parking)));
+        assistant.park("MAT-001");
+        assertTrue(assistant.retrieve("MAT-001"));
+        assertFalse(assistant.retrieve("MAT-002"));
+    }
 
-  }
+    @Test
+    public void itShouldSupportMultipleParkingLots() {
+        Assistant assistant = new Assistant(Set.of(parking, new Parking()));
+        assertEquals(assistant.getParkingSet().size(), 2);
+    }
 
 
 }
