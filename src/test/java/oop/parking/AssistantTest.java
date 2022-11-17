@@ -13,7 +13,7 @@ public class AssistantTest {
 
   @BeforeMethod
   public void setUp() {
-    car = new Car("MAT-001", false);
+    car = new Car.Builder("MAT-001",false).build();
     parking = new Parking(2);
     assistant = new Assistant(parking);
   }
@@ -35,11 +35,11 @@ public class AssistantTest {
   public void itShouldParkCarInMultipleParkingLots() {
     Parking parking2 = new Parking(2);
     assistant = new Assistant(parking, parking2);
-    assertTrue(assistant.park(new Car("MAT-001",false)));
-    assertTrue(assistant.park(new Car("MAT-002",false)));
-    assertTrue(assistant.park(new Car("MAT-003",false)));
-    assertTrue(assistant.park(new Car("MAT-004",false)));
-    assertFalse(assistant.park(new Car("MAT-005", false)));
+    assertTrue(assistant.park(new Car.Builder("MAT-001",false).build()));
+    assertTrue(assistant.park(new Car.Builder("MAT-002",false).build()));
+    assertTrue(assistant.park(new Car.Builder("MAT-003",false).build()));
+    assertTrue(assistant.park(new Car.Builder("MAT-004",false).build()));
+    assertFalse(assistant.park(new Car.Builder("MAT-005", false).build()));
   }
 
   @Test
@@ -49,22 +49,21 @@ public class AssistantTest {
 
     for(int i = 1; i <= 8; i++) {
       var license = "MAT-00" + i;
-      assertTrue(assistant.park(new Car(license,false)));
+      assertTrue(assistant.park(new Car.Builder(license,false).build()));
     }
-    assertFalse(assistant.park(new Car("MAT-009", false)));
+    assertFalse(assistant.park(new Car.Builder("MAT-009", false).build()));
   }
 
 
   @Test
   public void itShouldParkLargeCars() {
     Parking parking = new Parking(2);
-    Car largeCar = new Car("MAT-001", true);
-    Car regularCar = new Car("MAT-002", false);
+    Car largeCar = new Car.Builder("MAT-001", true).build();
+    Car regularCar = new Car.Builder("MAT-002",false).build();
     Assistant assistant = new Assistant(parking);
 
     assertTrue(assistant.park(largeCar));
     assertTrue(assistant.park(regularCar));
-
   }
 
   @Test
@@ -74,10 +73,25 @@ public class AssistantTest {
 
     assistant = new Assistant(parking, parking2);
 
-    assertTrue(assistant.park(new Car("MAT-001",true)));
-    assertTrue(assistant.park(new Car("MAT-002",true)));
+    assertTrue(assistant.park(new Car.Builder("MAT-001",true).build()));
+    assertTrue(assistant.park(new Car.Builder("MAT-002",true).build()));
 
     assertEquals(parking.availableSpace(), 4);
     assertEquals(parking2.availableSpace(), 4);
+  }
+
+  @Test
+  public void itShouldParkHandicappedCarsInAccessibleParkingLot() {
+    Parking parking = new Parking(5);
+    assistant = new Assistant(parking);
+
+    assertFalse(assistant.park(new Car.Builder("MAT-001",true)
+            .handicapped(true).build()));
+
+    Parking parking2 = new Parking(5,true);
+    assistant = new Assistant(parking2);
+
+    assertTrue(assistant.park(new Car.Builder("MAT-001",true)
+            .handicapped(true).build()));
   }
 }

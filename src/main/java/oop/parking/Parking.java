@@ -10,11 +10,20 @@ public class Parking {
     private Set<String> parkedCars;
     private int maxCapacity;
     private PropertyChangeSupport support;
+    private boolean accessible;
 
     public Parking(int maxCapacity){
         parkedCars = new HashSet<>();
         this.maxCapacity = maxCapacity;
         this.support = new PropertyChangeSupport(this);
+        this.accessible = false;
+    }
+
+    public Parking(int maxCapacity, boolean isAccessible){
+        parkedCars = new HashSet<>();
+        this.maxCapacity = maxCapacity;
+        this.support = new PropertyChangeSupport(this);
+        this.accessible = true;
     }
 
     public int getMaxCapacity() {
@@ -54,5 +63,9 @@ public class Parking {
     }
     public void removePropertyChangeListener(PropertyChangeListener observer) {
         support.removePropertyChangeListener(observer);
+    }
+
+    public boolean isAccessible() {
+        return accessible;
     }
 }

@@ -1,7 +1,5 @@
 package oop.parking;
 
-import oop.observer.PCLNewsAgency;
-import oop.observer.PCLNewsChannel;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -60,4 +58,9 @@ public class ParkingTest {
         assertFalse(landlord.isClosingNeeded());
     }
 
+    @Test
+    public void itShouldIndicateIfAccessible() {
+        Parking parkingLot = new Parking(10, true);
+        assertTrue(parkingLot.isAccessible());
+    }
 }
