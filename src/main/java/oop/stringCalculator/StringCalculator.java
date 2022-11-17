@@ -1,4 +1,4 @@
-package oop.stringcalculator;
+package oop.stringCalculator;
 
 public class StringCalculator {
 

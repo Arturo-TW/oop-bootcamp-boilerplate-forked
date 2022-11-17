@@ -1,10 +1,10 @@
-package oop.stringcalculator;
+package oop.stringCalculator;
 
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class StringCalculatorTest {
+public class stringCalculatorTest {
 
     @Test
     public void itShouldReturnZeroWhenEmptyStringGiven() {

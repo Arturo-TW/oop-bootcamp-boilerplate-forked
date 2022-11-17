@@ -1,40 +1,57 @@
 package oop.parking;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
-public class Assistant {
+public class Assistant  {
 
-    private final Set<Parking> parkingSet;
+  private static final double MIN_FREE_PERCENTAGE_THRESHOLD = 0.2;
+  private Set<Parking> parkingLots;
 
-    public Assistant(Set<Parking> parkingSet) {
-        this.parkingSet = parkingSet;
+  public Assistant(Parking... parkingLots) {
+    this.parkingLots = new HashSet<>(Arrays.asList(parkingLots));
+  }
+
+  public boolean park(Car car) {
+    return car.isLarge() ? parkLargeCar(car) : parkRegularCar(car);
+  }
+
+  private boolean parkLargeCar(Car car) {
+    double availableCapacityPercentage = 0.0;
+    Parking chosenParking = null;
+    for (Parking parking : parkingLots) {
+      double currentParkingAvailableCapacityPercentage = ((parking.availableSpace() / parking.getMaxCapacity()) * 1.0) * 100;
+      if (currentParkingAvailableCapacityPercentage > availableCapacityPercentage) {
+        chosenParking = parking;
+        availableCapacityPercentage = currentParkingAvailableCapacityPercentage;
+      }
     }
+    return chosenParking.park(car.getLicenseNumber());
+  }
 
-    public boolean park(final String licenseNumber) {
-        boolean parked = false;
-        for (final Parking currentParking : parkingSet) {
-            if (isParkingLessThan80PercentUsed(currentParking)) {
-                parked = currentParking.park(licenseNumber);
-                if (parked) break;
-            }
-        }
-        return parked;
+  private boolean parkRegularCar(Car car) {
+    boolean success = false;
+    for (Parking parking : parkingLots) {
+      if (parking.availableSpace() > isCapacityGreaterThanThreshold(parking)) {
+        success = parking.park(car.getLicenseNumber());
+        if (success) break;
+      }
     }
+    return success;
+  }
 
-    private boolean isParkingLessThan80PercentUsed(Parking currentParking) {
-        double usage = (double) currentParking.getParkedCars().size() / currentParking.getMaxParkingSlots();
-        return 0.8 > usage;
-    }
+  private int isCapacityGreaterThanThreshold(Parking parking) {
+    return (int) (parking.getMaxCapacity() * MIN_FREE_PERCENTAGE_THRESHOLD);
+  }
 
-    public boolean retrieve(String licenseNumber) {
-        boolean retrieved = false;
-        for (Parking parking1 : parkingSet) {
-            retrieved = parking1.retrieve(licenseNumber);
-        }
-        return retrieved;
+  public boolean retrieve(Car car) {
+    for ( Parking parking : parkingLots) {
+      if(parking.containsCar(car.getLicenseNumber()))
+      {
+        return parking.retrieve(car.getLicenseNumber());
+      }
     }
-
-    public Set<Parking> getParkingSet() {
-        return parkingSet;
-    }
+    return false;
+  }
 }

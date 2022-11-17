@@ -1,28 +1,36 @@
 package oop.parking;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.HashSet;
 import java.util.Set;
-import org.checkerframework.checker.units.qual.A;
 
 public class Parking {
 
-    private final Set<String> parkedCars;
-    private int maxParkingSlots;
-    public Parking(int maxParkingSlots){
+    private Set<String> parkedCars;
+    private int maxCapacity;
+    private PropertyChangeSupport support;
+
+    public Parking(int maxCapacity){
         parkedCars = new HashSet<>();
-        this. maxParkingSlots = maxParkingSlots;
+        this.maxCapacity = maxCapacity;
+        this.support = new PropertyChangeSupport(this);
     }
 
-    public int getMaxParkingSlots() {
-        return maxParkingSlots;
-    }
-
-    public Set<String> getParkedCars() {
-        return parkedCars;
+    public int getMaxCapacity() {
+        return maxCapacity;
     }
 
     public boolean park(String licenseNumber) {
-        return !isFull() && parkedCars.add(licenseNumber);
+        final var eventPrevious = new ParkingCapacityChangeEvent(maxCapacity, availableSpace());
+
+        boolean success = false;
+        if(availableSpace() > 0) {
+            success = parkedCars.add(licenseNumber);
+        }
+        final var eventAfter = new ParkingCapacityChangeEvent(maxCapacity, availableSpace());
+        support.firePropertyChange("parkingCapacityChangeEvent", eventPrevious, eventAfter);
+        return success;
     }
 
     public boolean isParked(String licenseNumber) {
@@ -33,7 +41,18 @@ public class Parking {
         return parkedCars.remove(licenseNumber);
     }
 
-    public boolean isFull(){
-        return parkedCars.size() == maxParkingSlots;
+    public int availableSpace() {
+        return maxCapacity - parkedCars.size();
+    }
+
+    public boolean containsCar(String licenseNumber) {
+        return parkedCars.contains(licenseNumber);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener observer) {
+        support.addPropertyChangeListener(observer);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener observer) {
+        support.removePropertyChangeListener(observer);
     }
 }
