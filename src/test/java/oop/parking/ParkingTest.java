@@ -11,7 +11,7 @@ public class ParkingTest {
     Parking parkingLot;
     @BeforeMethod
     public void emptyParking() {
-        parkingLot = new Parking();
+        parkingLot = new Parking(5);
     }
 
     @Test

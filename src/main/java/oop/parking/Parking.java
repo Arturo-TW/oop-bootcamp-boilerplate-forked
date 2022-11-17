@@ -6,13 +6,23 @@ import org.checkerframework.checker.units.qual.A;
 
 public class Parking {
 
-    Set<String> parkedCars;
-    public Parking(){
+    private final Set<String> parkedCars;
+    private int maxParkingSlots;
+    public Parking(int maxParkingSlots){
         parkedCars = new HashSet<>();
+        this. maxParkingSlots = maxParkingSlots;
+    }
+
+    public int getMaxParkingSlots() {
+        return maxParkingSlots;
+    }
+
+    public Set<String> getParkedCars() {
+        return parkedCars;
     }
 
     public boolean park(String licenseNumber) {
-        return parkedCars.add(licenseNumber);
+        return !isFull() && parkedCars.add(licenseNumber);
     }
 
     public boolean isParked(String licenseNumber) {
@@ -21,5 +31,9 @@ public class Parking {
 
     public boolean retrieve(String licenseNumber) {
         return parkedCars.remove(licenseNumber);
+    }
+
+    public boolean isFull(){
+        return parkedCars.size() == maxParkingSlots;
     }
 }

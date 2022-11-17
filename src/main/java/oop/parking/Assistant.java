@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Assistant {
 
-    Set<Parking> parkingSet;
+    private final Set<Parking> parkingSet;
 
     public Assistant(Set<Parking> parkingSet) {
         this.parkingSet = parkingSet;
@@ -13,9 +13,17 @@ public class Assistant {
     public boolean park(final String licenseNumber) {
         boolean parked = false;
         for (final Parking currentParking : parkingSet) {
-            parked = currentParking.park(licenseNumber);
+            if (isParkingLessThan80PercentUsed(currentParking)) {
+                parked = currentParking.park(licenseNumber);
+                if (parked) break;
+            }
         }
         return parked;
+    }
+
+    private boolean isParkingLessThan80PercentUsed(Parking currentParking) {
+        double usage = (double) currentParking.getParkedCars().size() / currentParking.getMaxParkingSlots();
+        return 0.8 > usage;
     }
 
     public boolean retrieve(String licenseNumber) {
